@@ -90,3 +90,68 @@ void update_all(Node * head)
 	update_height(head);
 	update_balance(head);
 }
+
+//Find the immediate predecessor
+Node * find_pred(Node * head)
+{
+	Node * temp = head;
+	while(head->rightChild != NULL)
+	{
+		temp = head;
+		head = head->rightChild;
+	}
+	if(head->rightChild == NULL)
+	{
+		temp->rightChild = NULL;
+		if(head->leftChild != NULL)
+		{
+			temp->rightChild = head->leftChild;
+			head->leftChild = NULL;
+		}
+	}
+	update_height(temp);
+	update_height(head);
+	update_balance(temp);
+	update_balance(head);
+
+	//Rotate Right
+  	if(temp->bal == 2)
+  	{
+    	temp = rotate_right(temp);
+  	}
+  	//Rotate Left
+  	else if(temp->bal == -2)
+  	{
+    	temp = rotate_left(temp);
+  	}
+
+	return head;
+}
+
+void printTreeFile(Node * head, FILE * outfile)
+{
+	int num = 0;
+	if(head->rightChild != NULL && head->leftChild != NULL)
+	{
+		num = 3;
+	}
+	if(head->rightChild == NULL && head->leftChild != NULL)
+	{
+		num = 2;
+	}
+	if(head->rightChild != NULL && head->leftChild == NULL)
+	{
+		num = 1;
+	}
+	fprintf(outfile, "%i %i\n", head->key, num);
+	
+	if(head->leftChild != NULL)
+	{
+		printTreeFile(head->leftChild, outfile);
+	}
+	if(head->rightChild != NULL)
+	{
+		printTreeFile(head->rightChild, outfile);
+	}
+
+}

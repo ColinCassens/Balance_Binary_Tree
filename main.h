@@ -19,13 +19,17 @@ typedef struct _Node{
 } Node;
 
 int main(int argc, char ** argv);
-void build_balanced_tree(Node * head, FILE * infile);
+Node * build_balanced_tree(Node * head, FILE * infile);
 Node * insert_node(Node * head, Node * newNode);
 void update_height(Node * head);
 void update_balance(Node * head);
 Node * rotate_left(Node * head);
 Node * rotate_right(Node * head);
 void update_all(Node * head);
+Node * delete_node(Node * head, int key);
+Node * find_pred(Node * head);
+void printTreeFile(Node * head, FILE * outfile);
+
 
 
 #endif
